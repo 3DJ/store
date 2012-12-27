@@ -1,0 +1,58 @@
+  upstream app_server {
+    # fail_timeout=0 means we always retry an upstream even if it failed
+    # to return a good HTTP response (in case the Unicorn master nukes a
+    # single worker for timing out).
+
+    # for UNIX domain socket setups:
+    # server unix:/tmp/unicorn.sock fail_timeout=0;
+
+    # for TCP setups, point these to your backend servers
+    server 127.0.0.1:8080 fail_timeout=0;
+    # server 192.168.0.8:8080 fail_timeout=0;
+    # server 192.168.0.9:8080 fail_timeout=0;
+  }
+
+  server {
+    listen 80;
+
+    location / {
+      rewrite ^(.*) https://$host$1 permanent;
+    }
+  }
+
+  server {
+    listen 443;
+    client_max_body_size 40M;
+    server_name 3dj.com;
+    root <%= @working_directory %>/public;
+    keepalive_timeout 5;
+    ssl on;
+    ssl_certificate        <%= @working_directory %>/support/sslchain.crt;
+    ssl_certificate_key    <%= @working_directory %>/support/nginx.key;
+
+    # Location of our static files
+    location ~ ^/(assets)/  {
+      gzip_static on; # to serve pre-gzipped version
+      expires max;
+      add_header  Cache-Control public;
+    }
+
+    location / {
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header Host $http_host;
+      proxy_set_header X-Forwarded-Proto https;
+      proxy_redirect off;
+
+      # If you don't find the filename in the static files
+      # Then request it from the unicorn server
+      if (!-f $request_filename) {
+        proxy_pass http://app_server;
+        break;
+      }
+    }
+
+    location = /favicon.ico {
+  		expires    max;
+	  	add_header Cache-Control public;
+  	}
+  }

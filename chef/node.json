@@ -1,0 +1,36 @@
+{
+    "id": "3dj",
+    "role": [
+        "nginx",
+        "postgres",
+        "rails",
+        "unicorn",
+        "whenever"
+    ],
+    "packages": {
+        "libxml2-dev": "",
+        "libxslt1-dev": "",
+        "libpq-dev": "",
+        "postgresql": "",
+        "git": ""
+    },
+    "gems": {
+        "backup": "",
+        "pg": ""
+    },
+    "repository": "git@github.com:3DJ/store.git",
+    "revision": {
+        "_default": "HEAD"
+    },
+    "deploy_to": "/srv/3dj",
+    "force": {
+        "_default": false
+    },
+    "migrate": {
+        "_default": true
+    },
+    "run_list": ["recipe[nginx]",
+                 "recipe[postgres]",
+                 "recipe[rails]",
+                 "recipe[unicorn]"]
+}
