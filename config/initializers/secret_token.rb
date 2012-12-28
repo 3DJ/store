@@ -7,7 +7,11 @@
 # old, probably compromised, open on GitHub
 #Threedeejay::Application.config.secret_token = 'c54c2bb87f11e2b2c97a9ec073236f77907722af494ac7f208b1562520bf54f213f687295743cbbcaa51aef193d4a4f788538d30233bb861745d831bb19a4763'
 begin
-  token_file = Rails.root.to_s + "/secret_token"
+  if Rails.env == "production"
+    token_file = "/srv/3dj/secret_token"
+  else
+    token_file = Rails.root.to_s + "/secret_token"
+  end
   to_load = open(token_file).read
   Threedeejay::Application.configure do
     config.secret_token = to_load
