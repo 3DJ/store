@@ -11,4 +11,11 @@ Spree.config do |config|
   # config.site_name = "Spree Demo Site"
 end
 
+SslRequirement.module_eval do
+  protected
+  def ssl_allowed?
+    true
+  end
+end
+
 Spree.user_class = "Spree::User"
