@@ -19,10 +19,6 @@ development:
   pool: 5
   username: postgres
   password: secret
-
-  # Connect on a TCP socket. Omitted by default since the client uses a
-  # domain socket that doesn't need configuration. Windows does not have
-  # domain sockets, so uncomment these lines.
   host: localhost
   port: 5432
 
@@ -49,7 +45,9 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: threedeejay_production
+  database: threedeejay
   pool: 5
-  username: threedeejay
-  password:
+  username: postgres
+  password: secret
+  host: localhost
+  port: 5432
