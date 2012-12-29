@@ -7,6 +7,7 @@ gem 'pg'
 gem 'spree', '1.3.0'
 gem 'spree_gateway', :github => 'spree/spree_gateway'
 gem 'spree_auth_devise', :github => 'spree/spree_auth_devise', :branch => 'edge'
+gem 'spree_digital', :github => 'halo/spree_digital', :branch => 'master'
 gem 'unicorn'
 gem 'whenever'
 
