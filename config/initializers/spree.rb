@@ -10,6 +10,7 @@ Spree.config do |config|
   # Uncomment to override the default site name.
   # config.site_name = "Spree Demo Site"
   config.set(logo: "logo.png")
+  config.set(allow_guest_checkout: false)
 end
 
 SslRequirement.module_eval do
