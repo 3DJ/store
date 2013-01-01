@@ -21,14 +21,14 @@
   }
 
   server {
-    listen 443;
+    listen 443 ssl default;
     client_max_body_size 40M;
     server_name 3dj.com;
     root <%= @working_directory %>/public;
     keepalive_timeout 5;
     ssl on;
-    ssl_certificate        <%= @working_directory %>/support/sslchain.crt;
-    ssl_certificate_key    <%= @working_directory %>/support/nginx.key;
+    ssl_certificate        /srv/3dj/support/sslchain.crt;
+    ssl_certificate_key    /srv/3dj/support/nginx.key;
 
     # Location of our static files
     location ~ ^/(assets)/  {
@@ -40,7 +40,7 @@
     location / {
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
       proxy_set_header Host $http_host;
-      proxy_set_header X-Forwarded-Proto https;
+      proxy_set_header X-Forwarded-Proto $scheme;
       proxy_redirect off;
 
       # If you don't find the filename in the static files
